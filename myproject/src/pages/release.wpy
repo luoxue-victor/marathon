@@ -1,0 +1,218 @@
+<style lang="less">
+.beforeMixin(@type, @color, @radius) {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  border-radius: @radius*2px;
+}
+
+.parentMixin() {
+  // position: relative;
+  border: none !important;
+}
+
+.border(@type: solid, @color: black, @radius: 0) {
+  .parentMixin();
+  &:before {
+    .beforeMixin(@type, @color, @radius);
+    border: 1px @type @color;
+  }
+}
+.border-top(@type: solid, @color: black, @radius: 0) {
+  .parentMixin();
+  &:before {
+    .beforeMixin(@type, @color, @radius);
+    border-top: 1px @type @color;
+  }
+}
+.border-left(@type: solid, @color: black, @radius: 0) {
+  .parentMixin();
+  &:before {
+    .beforeMixin(@type, @color, @radius);
+    border-left: 1px @type @color;
+  }
+}
+.border-bottom(@type: solid, @color: black, @radius: 0) {
+  .parentMixin();
+  &:before {
+    .beforeMixin(@type, @color, @radius);
+    border-bottom: 1px @type @color;
+  }
+}
+.border-right(@type: solid, @color: black, @radius: 0) {
+  .parentMixin();
+  &:before {
+    .beforeMixin(@type, @color, @radius);
+    border-right: 1px @type @color;
+  }
+}
+.container {
+  .page-release {
+    background-color: white;
+    width: 686rpx;
+    height: 1228rpx;
+    margin: 20rpx auto 79rpx;
+    box-shadow: 0 2px 30px 0 rgba(44, 44, 44, 0.12);
+    border-radius: 20rpx;
+    position: relative;
+    .banner {
+      width: 100%;
+      height: 210rpx;
+      background-color: #e9e9e9;
+      border-radius: 20rpx 20rpx 0 0;
+      position: relative;
+      .setimg {
+        width: 160rpx;
+        height: 58rpx;
+        line-height: 58rpx;
+        display: inline-block;
+        border-radius: 50rpx 0 0 50rpx;
+        background: rgba(47, 53, 74, 0.3);
+        position: absolute;
+        right: 0;
+        bottom: 31rpx;
+        font-size: 32rpx;
+        opacity: 0.3;
+        color: #2f354a;
+        text-align: center;
+      }
+    }
+    .formbox {
+      width: 638rpx;
+      margin: 0 auto;
+      .item {
+        width: 100%;
+        height: 104rpx;
+        position: relative;
+        .border-bottom(solid, #e7e7e7);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 32rpx;
+        .left {
+          color: #2f354a;
+        }
+        .right {
+          width: 260rpx;
+          color: #999ca5;
+          text-align: right;
+          input {
+            text-align: right;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+      .des {
+        width: 100%;
+        height: 290rpx;
+        font-size: 32rpx;
+        color: #999ca5;
+        background: #fafafa;
+        box-sizing: border-box;
+        margin-top: 36rpx;
+        padding: 35rpx 24rpx;
+        border-radius: 10rpx;
+      }
+    }
+    .button {
+      width: 638rpx;
+      height: 80rpx;
+      line-height: 80rpx;
+      background: #41ceb6;
+      color: #ffffff;
+      text-align: center;
+      border-radius: 50rpx;
+      bottom: 49rpx;
+      left: 50%;
+      margin-left: -638rpx/2;
+      position: absolute;
+    }
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <view class="page-release">
+      <view class="banner">
+        <view class="setimg">设置封面</view>
+      </view>
+      <view class="formbox">
+        <view class="item">
+          <view class="left">给圈子起个名</view>
+          <view class="rigt">
+            <input type="text" placeholder="请输入名字" cursor=1 selection-end=1 placeholder-style="color:#999ca5;text-align: right;">
+          </view>
+        </view>
+        <view class="item">
+          <view class="left">类别</view>
+          <view class="rigt">
+            <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+          </view>
+        </view>
+        <view class="item">
+          <view class="left">参与金额</view>
+          <view class="rigt">
+            <input type="text" placeholder="请输入金额" placeholder-style="color:#999ca5;text-align: right;">
+          </view>
+        </view>
+        <view class="item">
+          <view class="left">开始日期</view>
+          <view class="rigt">
+            <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+          </view>
+        </view>
+        <view class="item">
+          <view class="left">结束日期</view>
+          <view class="rigt">
+            <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+          </view>
+        </view>
+        <textarea class="des" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
+      </view>
+      <view class="button">完成</view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import Toast from 'wepy-com-toast';
+export default class Release extends wepy.page {
+  config = {
+    navigationBarTitleText: '赏金打卡'
+  };
+  components = {
+    toast: Toast
+  };
+  data = {
+    imgUrls: [1, 2, 3],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 5000,
+    duration: 1000
+  };
+  computed = {};
+  methods = {
+    toast() {
+      let promise = this.$invoke('toast', 'show', {
+        title: '自定义标题',
+        img:
+          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+      });
+      promise.then(d => {
+        console.log('toast done');
+      });
+    }
+  };
+
+  events = {};
+  onLoad() {}
+}
+</script>
