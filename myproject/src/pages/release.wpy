@@ -1,57 +1,79 @@
+<style lang="less">
+.container {
+  .page-release {
+    background-color: white;
+    width: 686rpx;
+    height: 1228rpx;
+    margin: 20rpx auto 79rpx;
+    box-shadow: 0 2px 30px 0 rgba(44, 44, 44, 0.12);
+    border-radius: 20rpx;
+    .banner {
+      width: 100%;
+      height: 210rpx;
+      background-color: #e9e9e9;
+      border-radius: 20rpx 20rpx 0 0;
+      position: relative;
+      .setimg {
+        width: 160rpx;
+        height: 58rpx;
+        line-height: 58rpx;
+        display: inline-block;
+        border-radius: 50rpx 0 0 50rpx;
+        background:rgba(47,53,74,.3);
+        position: absolute;
+        right: 0;
+        bottom: 31rpx;
+        font-size: 32rpx;
+        opacity: 0.3;
+        color: #2F354A;
+        text-align: center;
+
+      }
+    }
+  }
+}
+</style>
 <template>
   <view class="container">
     <view class="page-release">
-        发布页面
+      <view class="banner">
+        <view class="setimg">设置封面</view>
+      </view>
     </view>
   </view>
-
 </template>
 <script>
-  import wepy from 'wepy'
-  import Toast from 'wepy-com-toast'
-  export default class Release extends wepy.page {
-    config = {
-      navigationBarTitleText: '赏金打卡'
+import wepy from 'wepy';
+import Toast from 'wepy-com-toast';
+export default class Release extends wepy.page {
+  config = {
+    navigationBarTitleText: '赏金打卡'
+  };
+  components = {
+    toast: Toast
+  };
+  data = {
+    imgUrls: [1, 2, 3],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 5000,
+    duration: 1000
+  };
+  computed = {};
+  methods = {
+    toast() {
+      let promise = this.$invoke('toast', 'show', {
+        title: '自定义标题',
+        img:
+          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+      });
+      promise.then(d => {
+        console.log('toast done');
+      });
     }
-    components = {
-      toast: Toast
-    }
-    data = {
-      imgUrls: [
-        1,2,3,
-      ],
-      indicatorDots: true,
-      autoplay: true,
-      interval: 5000,
-      duration: 1000
-    }
-    computed = {
-    }
-    methods = {
-      toast () {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
-        promise.then((d) => {
-          console.log('toast done')
-        })
-      },
-    }
+  };
 
-    events = {
-      
-    }
-    onLoad() {
-      
-    }
-  }
+  events = {};
+  onLoad() {}
+}
 </script>
-<style lang="less">
-  .wrap{
-    background-color: #f8f8f8;
-    .page-release{
-      color:red;
-    }
-  }
-</style>
