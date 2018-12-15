@@ -1,27 +1,36 @@
 <style lang="less">
-  
+  .swiper-item,.navban{
+    width: 100%;
+    height: 100vh;
+  }
+  .navbox{
+    background-color: white;
+    width: 640rpx;
+    height: 984rpx;
+    margin: 20rpx auto 0;
+    box-shadow: 0 2px 30px 0 rgba(44,44,44,0.12);
+    border-radius: 20rpx;
+    .nav-logo{
+      
+    }
+  }
 </style>
 <template>
   <view class="container">
-  <view class="page-body">
-    <view class="page-section page-section-spacing swiper">
-      <swiper
-        indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}">
-        <block>
-          <swiper-item>
-            <view class="swiper-item">hello</view>
-          </swiper-item>
+    <!--导航部分轮播图-->
+    <swiper class="navban">
+      <block wx:for="{{navs}}" wx:key="index">
+        <swiper-item>
+          <view class="navbox">
+            <view>
+              <view class="nav-logo"></view>
+              <text class="navtext">{{item.navtext}}</text>
+            </view>
+          </view>
+        </swiper-item>    
         </block>
-        <block>
-          <swiper-item>
-            <view class="swiper-item">hello</view>
-          </swiper-item>
-        </block>
-      </swiper>
-    </view>
-
+    </swiper>
   </view>
-</view>
 
 </template>
 <script>
@@ -35,13 +44,15 @@
       toast: Toast
     }
     data = {
-      imgUrls: [
-        1,2,3,
+      navs:[
+        { navimg:'/images/i01.png', navtext:'进行中'},
+        { navimg:'/images/i02.png', navtext:'即将开始'},
+        { navimg:'/images/i03.png', navtext:'已完成'},
       ],
       indicatorDots: true,
       autoplay: true,
-      interval: 5000,
-      duration: 1000
+      interval: 2000,
+      duration: 1000,
     }
     computed = {
       
