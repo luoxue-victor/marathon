@@ -3,8 +3,26 @@
 </style>
 <template>
   <view class="container">
-   hello
+  <view class="page-body">
+    <view class="page-section page-section-spacing swiper">
+      <swiper
+        indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}">
+        <block>
+          <swiper-item>
+            <view class="swiper-item">hello</view>
+          </swiper-item>
+        </block>
+        <block>
+          <swiper-item>
+            <view class="swiper-item">hello</view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+
   </view>
+</view>
+
 </template>
 <script>
   import wepy from 'wepy'
@@ -17,7 +35,13 @@
       toast: Toast
     }
     data = {
-      
+      imgUrls: [
+        1,2,3,
+      ],
+      indicatorDots: true,
+      autoplay: true,
+      interval: 5000,
+      duration: 1000
     }
     computed = {
       
