@@ -136,10 +136,13 @@
         }
       }
     }
-    .clockin {
+    .clockin{
+  .border-bottom(solid, #e7e7e7);
+    }
+    .clockin,.c {
       position: relative;
       padding: 40rpx 0;
-      .border-bottom(solid, #e7e7e7);
+    
       .userimg {
         position: absolute;
         left: 0;
@@ -273,7 +276,7 @@
             bindtap="swichNav"
           >成员</view>
         </scroll-view>
-        <view>
+        <view wx:if="{{currentTab==0}}">
           <view class="clockin">
             <image class="userimg" src="./asset/other.jpg">
             <view class="detail">
@@ -303,7 +306,30 @@
           </view>
         </view>
 
+        <view wx:if="{{currentTab==1}}">
+          <view class="clockin c">
+            <image class="userimg" src="./asset/other.jpg">
+            <view class="detail">
+              <view class="name">山猫丁满</view>
+              <view class="date">已坚持1天 | 2018-07-07</view>
+            </view>
+          </view>
 
+             <view class="c">
+            <image class="userimg" src="./asset/other.jpg">
+            <view class="detail">
+              <view class="name">山猫丁满</view>
+              <view class="date">已坚持1天 | 2018-07-07</view>
+            </view>
+          </view>
+             <view class="c">
+            <image class="userimg" src="./asset/other.jpg">
+            <view class="detail">
+              <view class="name">山猫丁满</view>
+              <view class="date">已坚持1天 | 2018-07-07</view>
+            </view>
+          </view>
+        </view>
         
       </view>
     </view>
