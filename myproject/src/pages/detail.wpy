@@ -58,6 +58,7 @@
     background-color: white;
     width: 686rpx;
     height: auto;
+    min-height: 1000rpx;
     margin: 20rpx auto 79rpx;
     box-shadow: 0 2px 30px 0 rgba(44, 44, 44, 0.12);
     border-radius: 20rpx;
@@ -166,12 +167,71 @@
           line-height: 24rpx;
         }
         .des {
-           margin-top: 24rpx;
+          margin-top: 24rpx;
           font-size: 34rpx;
           color: #2f354a;
           letter-spacing: 0;
           text-align: justify;
           line-height: 51rpx;
+        }
+        .uploadimg {
+          width: 100%;
+          height: 130rpx;
+          margin-top: 20rpx;
+          // overflow-x: auto;
+          // // -webkit-overflow-scrolling: touch;
+          // white-space:pre;
+          overflow-x: scroll;
+          -webkit-overflow-scrolling: touch;
+          white-space: nowrap;
+          .itemimg {
+            width: 130rpx;
+            height: 100%;
+            border-radius: 5rpx;
+            margin-right: 12px;
+            display: inline-block;
+          }
+        }
+        .point {
+          font-size: 28rpx;
+          color: #2f354a;
+          text-align: justify;
+          line-height: 28rpx;
+          margin: 20rpx auto;
+          .praise {
+            width: 34rpx;
+            height: 33rpx;
+            vertical-align: middle;
+            margin-right: 16rpx;
+          }
+          span {
+            vertical-align: middle;
+            margin-right: 30rpx;
+          }
+          .reply {
+            vertical-align: middle;
+            width: 34rpx;
+            height: 29rpx;
+            margin-right: 16rpx;
+          }
+        }
+        .replydtl {
+          box-sizing: border-box;
+          background: #f2f2f2;
+          border-radius: 1px;
+          width: 100%;
+          padding: 16rpx;
+          font-size: 28rpx;
+          color: #001700;
+          letter-spacing: 0;
+          text-align: justify;
+          line-height: 40rpx;
+          // .s{
+          //   margin-bottom: 10rpx;
+          // }
+          span {
+            color: #03ceb3;
+          }
         }
       }
     }
@@ -206,22 +266,45 @@
             class="tab-item {{currentTab==0?'active':''}}"
             data-current="0"
             bindtap="swichNav"
-          >快递</view>
+          >日记</view>
           <view
             class="tab-item {{currentTab==1?'active':''}}"
             data-current="1"
             bindtap="swichNav"
-          >身份证</view>
+          >成员</view>
         </scroll-view>
-        <view class="clockin">
-          <image class="userimg" src="cloud://test-08185b.7465-test-08185b/p_6ed4914e" />
-          <view class="detail">
-            <view class="name">山猫丁满</view>
-            <view class="date">已坚持1天| 2018-07-07</view>
-            <view class="des">以我人品担保，绝对是个靠谱青年而且还是单身的那种。</view>
-            <view class="point"></view>
+        <view>
+          <view class="clockin">
+            <image class="userimg" src="./asset/other.jpg">
+            <view class="detail">
+              <view class="name">山猫丁满</view>
+              <view class="date">已坚持1天 | 2018-07-07</view>
+              <view class="des">以我人品担保，绝对是个靠谱青年而且还是单身的那种。</view>
+              <view class="uploadimg" scroll-x style="width: 100%">
+                <image class="itemimg" src="./asset/other.jpg">
+                <image class="itemimg" src="./asset/other.jpg">
+                <image class="itemimg" src="./asset/other.jpg">
+              </view>
+              <view class="point">
+                <image class="praise" src="{{praise}}">
+                <span>11111</span>
+                <image class="reply" src="{{message}}">
+                <span>3333</span>
+              </view>
+              <view class="replydtl">
+                <view class="s">
+                  <span>打卡大魔王:</span>赶紧进的去打卡😠 赶紧进的去打卡😠 赶紧进的去打卡😠 赶紧进的去打卡😠
+                </view>
+                <view class="s">
+                  <span>打卡大魔王:</span>赶紧进的去打卡😠
+                </view>
+              </view>
+            </view>
           </view>
         </view>
+
+
+        
       </view>
     </view>
   </view>
@@ -243,7 +326,10 @@ export default class Release extends wepy.page {
     autoplay: true,
     interval: 5000,
     duration: 1000,
-    scrollLeft: 0 //tab标题的滚动条位置,
+    scrollLeft: 0, //tab标题的滚动条位置,
+    praise: './asset/praise.png',
+    praises: './asset/praises.png',
+    message: './asset/message.png'
   };
   computed = {};
   methods = {
