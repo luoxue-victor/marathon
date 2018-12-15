@@ -1,35 +1,151 @@
-<style lang="less">
-  .swiper-item,.navban{
+<style lang="less" scoped>
+  .navban{
     width: 100%;
     height: 100vh;
   }
   .navbox{
     background-color: white;
-    width: 640rpx;
+    width: 650rpx;
     height: 984rpx;
-    margin: 20rpx auto 0;
-    box-shadow: 0 2px 30px 0 rgba(44,44,44,0.12);
+    margin: 32rpx 0 0 32rpx;
+    box-shadow: 0 4px 30px 0 rgba(44,44,44,0.12);
     border-radius: 20rpx;
-    .nav-logo{
-      
+    padding-top: 36rpx;
+    margin-right: 200px;
+    box-sizing: border-box;
+    // overflow-y: auto;
+    .navbox-wrap{
+      display: flex;
+      align-items: center;
+      .nav-logo{
+        width: 10rpx;
+        height: 30rpx;
+        border-radius: 5rpx;
+        background: #03CEB3;
+      }
+      .navtext{
+        margin-left: 26rpx;
+        font-family: PingFangSC-Medium;
+        font-size: 42rpx;
+        color: #2F354A;
+        font-weight: 600;
+      }
+    }
+  }
+  .release{
+    width: 174rpx;
+    height: 174rpx;
+    position: fixed;
+    bottom: 32rpx;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .carts{
+    box-sizing: border-box;
+    padding: 34rpx;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .cart{
+      width: 140* 2rpx;
+      height: 200.5 * 2rpx;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 28rpx;
+      background-repeat: no-repeat;
+      display: inline-block;
+      border-radius: 12rpx;
+      box-shadow: 0 1px 10px 0 rgb(148, 177, 173);
+      position: relative;
+      border-radius: 14rpx;
+      overflow: hidden;
+      .opacity-bg,.opacity-bg-view{
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.35);
+        position: absolute;
+        z-index: 0;
+      }
+      .opacity-bg-view{
+        z-index: 2;
+      }
+      .avatar{
+        width: 60rpx;
+        height: 60rpx;
+        display: block;
+        margin: 44rpx auto 0;
+        position: relative;
+        z-index: 10;
+      }
+      .title,.date,.progress{
+        font-family: PingFangSC-Medium;
+        font-size: 32rpx;
+        color: #FFFFFF;
+        text-align: center;
+        margin-top: 17.5*2rpx;
+        position: relative;
+        z-index: 10;
+      }
+      .progress{
+        font-size: 36rpx;
+        margin-top: 7rpx;
+      }
+      .date{
+        font-size: 24rpx;
+        margin-top: 10rpx;
+      }
+      .btn{
+        width: 182rpx;
+        height: 52rpx;
+        border-radius: 26rpx;
+        font-family: PingFangSC-Regular;
+        font-size: 28rpx;
+        color: #FFFFFF;
+        background: #03CEB3;
+        line-height: 52rpx;
+        outline: none;
+        margin-top: 38rpx;
+        position: relative;
+        z-index: 10;
+      }
     }
   }
 </style>
 <template>
   <view class="container">
     <!--导航部分轮播图-->
-    <swiper class="navban">
+    <swiper class="navban" display-multiple-items="1.10" skip-hidden-item-layout="true"> 
       <block wx:for="{{navs}}" wx:key="index">
         <swiper-item>
           <view class="navbox">
-            <view>
+            <view class="navbox-wrap">
               <view class="nav-logo"></view>
               <text class="navtext">{{item.navtext}}</text>
             </view>
+            <view class="carts">
+                <view class="cart" wx:for={{4}}>
+                  <view class="opacity-bg-view"></view>
+                  <image class="opacity-bg" mode="center" src="{{other}}"></image>
+                  <image class="avatar" src="{{ releaseBtn }}"></image>
+                  <view class="title">麦田里阅读</view>
+                  <view class="progress">
+                    0/6day
+                  </view>
+                  <view class="date">
+                    已交10元 7.06-7.12
+                  </view>
+                  <button class="btn">去打卡</button>
+                </view>
+              </view>
           </view>
         </swiper-item>    
         </block>
     </swiper>
+    <image 
+      mode="scaleToFill"
+      class="release" 
+      src="{{ releaseBtn }}" alt="">
+    </image>
   </view>
 
 </template>
@@ -49,6 +165,8 @@
         { navimg:'/images/i02.png', navtext:'即将开始'},
         { navimg:'/images/i03.png', navtext:'已完成'},
       ],
+      releaseBtn: './asset/release.png',
+      other: './asset/other.jpg',
       indicatorDots: true,
       autoplay: true,
       interval: 2000,
@@ -73,7 +191,12 @@
       
     }
     onLoad() {
-      
+      wx.cloud.callFunction({
+        name: 'punchCard',
+        data: {
+          
+        }
+      }).then(res => console.log(res));
     }
   }
 </script>
