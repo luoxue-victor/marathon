@@ -104,7 +104,7 @@
           color: #2f354a;
         }
         .right {
-          width: 260rpx;
+          width: 400rpx;
           color: #999ca5;
           text-align: right;
           input {
@@ -159,36 +159,34 @@
         <view class="item">
           <view class="left">类别</view>
           <view class="right">
-            <!-- <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
-             -->
-              <picker
-                mode="date"
-                value="{{'2015-09-01'}}"
-                start="2015-09-01"
-                end="2017-09-01"
-                bindchange="bindDateChange"
-              >
+            <picker bindchange="pickerCate" range="{{cates}}">
+              <view class="picker">已选择：{{cates[selctedCateIndex]}} </view>
+            </picker>
           </view>
         </view>
         <view class="item">
           <view class="left">参与金额</view>
           <view class="right">
-            <input type="number" placeholder="请输入金额" placeholder-style="color:#999ca5;text-align: right;">
+            <input type="number" @input="moneyInput" placeholder="请输入金额" placeholder-style="color:#999ca5;text-align: right;">
           </view>
         </view>
         <view class="item">
           <view class="left">开始日期</view>
           <view class="right">
-            <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+            <picker bindchange="pickerStartDate" range="{{startDates}}">
+              <view class="picker">已选择：{{startDates[selctedStartDateIndex]}} </view>
+            </picker>
           </view>
         </view>
         <view class="item">
           <view class="left">结束日期</view>
           <view class="right">
-            <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+            <picker bindchange="pickerEndDate" range="{{endDates}}">
+              <view class="picker">已选择：{{endDates[selctedEndDateIndex]}} </view>
+            </picker>
           </view>
         </view>
-        <textarea class="des" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
+        <textarea class="des" @input="descInput" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
       </view>
       <button class="button" @tap="releaseClick">完成</button>
     </view>
@@ -216,6 +214,25 @@ export default class Release extends wepy.page {
     money: '',
     startDate: '2018-12-15',
     endDate: '',
+    cates: [
+      '运动','学习','健身','看书'
+    ],
+    selctedCateIndex: 0,
+    selctedStartDateIndex: 0,
+    startDates: [
+      '2018-12-16',
+      '2018-12-17',
+      '2018-12-18',
+      '2018-12-19',
+    ],
+    selctedEndDateIndex: 0,
+    endDates: [
+      '2018-12-20',
+      '2018-12-21',
+      '2018-12-22',
+      '2018-12-23',
+    ],
+    desc: '',
   };
   computed = {};
   methods = {
@@ -229,36 +246,71 @@ export default class Release extends wepy.page {
         console.log('toast done');
       });
     },
+
+    pickerCate(e) {
+      const idx = e.detail.value;
+      this.selctedCateIndex = idx;
+    },
+    pickerStartDate(e) {
+      const idx = e.detail.value;
+      this.selctedStartDateIndex = idx;
+    },
+    pickerEndDate(e) {
+      const idx = e.detail.value;
+      this.selctedEndDateIndex = idx;
+    },
     nameInput(e) {
       this.name = e.detail.value;
+    },
+    moneyInput(e) {
+      this.money = e.detail.value;
+    },
+    descInput(e) {
+      this.desc = e.detail.value;
     },
     async setTopImg() {
       const images = await this.$utile.uploadImage();
       this.images = images;
-      
       this.$apply();
     },
     async releaseClick() {
-      const startDate = '2018-12-16';
-      const endDate = '2018-12-17';
-      let arr = [this.images,this.name,this.cate,this.money,this.startDate,this.endDate];
+      const arr = [
+        this.images,
+        this.name,this.cates[this.selctedCateIndex],
+        this.money,
+        this.startDates[this.selctedStartDateIndex],
+        this.endDates[this.selctedEndDateIndex],
+        this.desc
+      ];
+      const tip = [
+        '请上传图片',
+        '请填写名字',
+        '请填写品类',
+        '请填写金额',
+        '请填写开始日期',
+        '请填写结束日期',
+        '请填写描述信息',
+      ]
       for(let i = 0; i<arr.length;i++) {
-        if(!arr[i]) return wx.showToast({
-          title: '提交失败',
-          icon: 'fail',
-          duration: 2000
-        })
+        if(!arr[i]) {
+          wx.showToast({
+            title: tip[i],
+            icon: 'fail',
+            duration: 2000
+          })
+          return
+        } 
       }
       wx.cloud.callFunction({
         name: 'addUserActivityPost',
         data: {
           imageUrl: this.images,
-          title: '这是一个标题',
-          clockType: '运动',
+          title: this.name,
+          clockType: this.cates[this.selctedCateIndex],
           totalMoney: this.money,
           startDate: this.startDate,
           endDate: this.endDate,
-          desc: '这是一个描述'
+          desc: this.desc
         }
       }).then(res => {
         wx.showToast({
