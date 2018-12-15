@@ -29,6 +29,9 @@ export default class Utile {
                 sizeType: ['original', 'compressed'],
                 sourceType: ['album', 'camera'],
                 success(res) {
+                    wx.showLoading({
+                        title: '图片加载中...',
+                    })
                     // tempFilePath可以作为img标签的src属性显示图片
                     const tempFilePaths = res.tempFilePaths;
                     wx.cloud.uploadFile({
@@ -36,6 +39,7 @@ export default class Utile {
                         filePath: tempFilePaths[0], // 小程序临时文件路径
                         success: res => {
                             imageUrl = res.fileID;
+                            wx.hideLoading()
                             resovle(imageUrl)
                         },
                     })

@@ -116,12 +116,12 @@
   <view class="container">
     <!--导航部分轮播图-->
     <swiper class="navban" display-multiple-items="1.10" skip-hidden-item-layout="true"> 
-      <block wx:for="{{userList}}" wx:key="index">
+      <block wx:for="{{userList}}" wx:for-index="fatherIndex" wx:key="fatherIndex">
         <swiper-item>
           <view class="navbox">
             <view class="navbox-wrap">
               <view class="nav-logo"></view>
-              <text class="navtext">{{index == 0 ? '未开始': index == 1 ? '进行中' : '已完成'}}</text>
+              <text class="navtext">{{fatherIndex == 0 ? '进行中': fatherIndex == 1 ? '即将开始' : '已完成'}}</text>
             </view>
             <view class="carts">
                 <view class="cart" wx:for={{item}}>
@@ -133,7 +133,7 @@
                     0/6day
                   </view>
                   <view class="date">
-                    已交{{item.totalMoney}}元 7.06-7.12
+                    {{ fatherIndex !=2 ? '已交' + item.totalMoney + '元' :''}} {{fatherIndex == 0 ? item.spanDate + '截止': item.spanDate}}
                   </view>
                   <button class="btn" @getuserinfo="getuserinfo" open-type="getUserInfo">去打卡</button>
                 </view>
@@ -197,25 +197,8 @@
       },
       
       async releaseClick() {
-        const images = await this.$utile.uploadImage();
-        wx.cloud.callFunction({
-          name: 'addUserActivityPost',
-          data: {
-            type: 0,
-            imageUrl: images,
-            title: '这是一个标题',
-            clockType: '运动',
-            totalMoney: 10,
-            startDate: Date.now(),
-            endDate: Date.now() + 24 * 60 * 60 * 1000,
-            desc: '这是一个描述'
-          }
-        }).then(res => {
-          wx.showToast({
-            title: '上传成功',
-            icon: 'success',
-            duration: 2000
-          })
+        wx.navigateTo({
+          url: '/pages/release',
         });
       }
     }

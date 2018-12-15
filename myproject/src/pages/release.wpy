@@ -68,6 +68,10 @@
       background-color: #e9e9e9;
       border-radius: 20rpx 20rpx 0 0;
       position: relative;
+      .img{
+        width: 100%;
+        height: 100%;
+      }
       .setimg {
         width: 160rpx;
         height: 58rpx;
@@ -142,42 +146,51 @@
   <view class="container">
     <view class="page-release">
       <view class="banner">
-        <view class="setimg">设置封面</view>
+        <image class="img" wx:if="{{images}}" mode="center" src="{{images}}"></image>
+        <view class="setimg" @tap="setTopImg">设置封面</view>
       </view>
       <view class="formbox">
         <view class="item">
           <view class="left">给圈子起个名</view>
-          <view class="rigt">
-            <input type="text" placeholder="请输入名字" cursor=1 selection-end=1 placeholder-style="color:#999ca5;text-align: right;">
+          <view class="right">
+            <input type="text"  placeholder="请输入名字" @input="nameInput" cursor=1 selection-end=1 placeholder-style="color:#999ca5;text-align: right;">
           </view>
         </view>
         <view class="item">
           <view class="left">类别</view>
-          <view class="rigt">
-            <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+          <view class="right">
+            <!-- <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
+             -->
+              <picker
+                mode="date"
+                value="{{'2015-09-01'}}"
+                start="2015-09-01"
+                end="2017-09-01"
+                bindchange="bindDateChange"
+              >
           </view>
         </view>
         <view class="item">
           <view class="left">参与金额</view>
-          <view class="rigt">
-            <input type="text" placeholder="请输入金额" placeholder-style="color:#999ca5;text-align: right;">
+          <view class="right">
+            <input type="number" placeholder="请输入金额" placeholder-style="color:#999ca5;text-align: right;">
           </view>
         </view>
         <view class="item">
           <view class="left">开始日期</view>
-          <view class="rigt">
+          <view class="right">
             <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
           </view>
         </view>
         <view class="item">
           <view class="left">结束日期</view>
-          <view class="rigt">
+          <view class="right">
             <input type="text" placeholder="请选择" placeholder-style="color:#999ca5;text-align: right;">
           </view>
         </view>
         <textarea class="des" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
       </view>
-      <view class="button">完成</view>
+      <button class="button" @tap="releaseClick">完成</button>
     </view>
   </view>
 </template>
@@ -196,7 +209,13 @@ export default class Release extends wepy.page {
     indicatorDots: true,
     autoplay: true,
     interval: 5000,
-    duration: 1000
+    duration: 1000,
+    images: '',
+    name: '',
+    cate: '',
+    money: '',
+    startDate: '2018-12-15',
+    endDate: '',
   };
   computed = {};
   methods = {
@@ -210,7 +229,45 @@ export default class Release extends wepy.page {
         console.log('toast done');
       });
     },
- 
+    nameInput(e) {
+      this.name = e.detail.value;
+    },
+    async setTopImg() {
+      const images = await this.$utile.uploadImage();
+      this.images = images;
+      
+      this.$apply();
+    },
+    async releaseClick() {
+      const startDate = '2018-12-16';
+      const endDate = '2018-12-17';
+      let arr = [this.images,this.name,this.cate,this.money,this.startDate,this.endDate];
+      for(let i = 0; i<arr.length;i++) {
+        if(!arr[i]) return wx.showToast({
+          title: '提交失败',
+          icon: 'fail',
+          duration: 2000
+        })
+      }
+      wx.cloud.callFunction({
+        name: 'addUserActivityPost',
+        data: {
+          imageUrl: this.images,
+          title: '这是一个标题',
+          clockType: '运动',
+          totalMoney: this.money,
+          startDate: this.startDate,
+          endDate: this.endDate,
+          desc: '这是一个描述'
+        }
+      }).then(res => {
+        wx.showToast({
+          title: '上传成功',
+          icon: 'success',
+          duration: 2000
+        })
+      });
+    }
   };
 
   events = {};
