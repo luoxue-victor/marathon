@@ -14,7 +14,6 @@
 }
 
 .parentMixin() {
-  // position: relative;
   border: none !important;
 }
 
@@ -57,73 +56,22 @@
   .page-release {
     background-color: white;
     width: 686rpx;
-    height: 1228rpx;
+    height: 1000rpx;
     margin: 20rpx auto 79rpx;
     box-shadow: 0 2px 30px 0 rgba(44, 44, 44, 0.12);
     border-radius: 20rpx;
     position: relative;
-    .banner {
-      width: 100%;
-      height: 210rpx;
-      background-color: #e9e9e9;
-      border-radius: 20rpx 20rpx 0 0;
-      position: relative;
-      .img{
-        width: 100%;
-        height: 100%;
-      }
-      .setimg {
-        width: 160rpx;
-        height: 58rpx;
-        line-height: 58rpx;
-        display: inline-block;
-        border-radius: 50rpx 0 0 50rpx;
-        background: rgba(47, 53, 74, 0.3);
-        position: absolute;
-        right: 0;
-        bottom: 31rpx;
-        font-size: 32rpx;
-        opacity: 0.3;
-        color: #2f354a;
-        text-align: center;
-      }
-    }
     .formbox {
       width: 638rpx;
       margin: 0 auto;
-      .item {
-        width: 100%;
-        height: 104rpx;
-        position: relative;
-        .border-bottom(solid, #e7e7e7);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 32rpx;
-        .left {
-          color: #2f354a;
-        }
-        .right {
-          width: 400rpx;
-          color: #999ca5;
-          text-align: right;
-          input {
-            text-align: right;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-        }
-      }
       .des {
         width: 100%;
         height: 290rpx;
         font-size: 32rpx;
         color: #999ca5;
-        background: #fafafa;
-        box-sizing: border-box;
         margin-top: 36rpx;
-        padding: 35rpx 24rpx;
         border-radius: 10rpx;
+        
       }
     }
     .button {
@@ -139,56 +87,130 @@
       margin-left: -638rpx/2;
       position: absolute;
     }
+
+    .five-image {
+    white-space: nowrap;
+    background: #ffffff;
+    display: inline-block;
+    /*padding: unit(20, rpx) 0;*/
+    &-file {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: unit(9, rpx);
+      position: relative;
+      &-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 20;
+        background-image: url("//j2.58cdn.com.cn/zhuanzhuan/publicComponent/images/close.png");
+        background-size: cover;
+        width: unit(30, rpx);
+        height: unit(30, rpx);
+      }
+      /*&-content {*/
+        /*position: absolute;*/
+        /*top: 50%;*/
+        /*left: 50%;*/
+        /*-webkit-transform: translate(-50%, -50%);*/
+        /*transform: translate(-50%, -50%);*/
+        /*color: #FFFFFF;*/
+      /*}*/
+      .cover { //封面
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 36rpx;
+        line-height: 36rpx;
+        text-align: center;
+        font-size: 30rpx;
+        color: #fff;
+        background: rgba(255,86,47,0.6);
+      }
+      .uploading, .uploadFailed{
+        position: absolute;;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        text-align: center;
+        font-size: 26rpx;
+        padding: 45% 0 0;
+      }
+    }
+    &-img {
+      display: block;
+      width: unit(79, rpx);
+      height: unit(79, rpx);
+    }
+    &-input {
+      &-box {
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        margin-right: unit(20, rpx);
+        width: unit(174, rpx);
+        height: unit(174, rpx);
+        // background: #f2f3f6;
+      }
+      &-icon {
+        background-image: url("//j2.58cdn.com.cn/zhuanzhuan/publicComponent/images/camera.png");
+        background-size: cover;
+        width: unit(76, rpx);
+        height: unit(67, rpx);
+        margin: 0 auto;
+        position: relative;
+        top: 23%;
+      }
+      &-text {
+        position: absolute;
+        bottom: unit(20, rpx);
+        font-size: unit(28, rpx);
+        // color: #9398a5;
+        color: #43474C;
+        text-align: center;
+        width: 100%;
+      }
+    }
+    .isAble{
+      background: #f2f3f6;
+    }
+  }
   }
 }
 </style>
 <template>
   <view class="container">
     <view class="page-release">
-      <view class="banner">
+      <!-- <view class="banner">
         <image class="img" wx:if="{{images}}" mode="center" src="{{images}}"></image>
         <view class="setimg" @tap="setTopImg">设置封面</view>
-      </view>
+      </view> -->
       <view class="formbox">
-        <view class="item">
-          <view class="left">给圈子起个名</view>
-          <view class="right">
-            <input type="text"  placeholder="请输入名字" @input="nameInput" cursor=1 selection-end=1 placeholder-style="color:#999ca5;text-align: right;">
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">类别</view>
-          <view class="right">
-            <picker bindchange="pickerCate" range="{{cates}}">
-              <view class="picker">已选择：{{cates[selctedCateIndex]}} </view>
-            </picker>
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">参与金额</view>
-          <view class="right">
-            <input type="number" @input="moneyInput" placeholder="请输入金额" placeholder-style="color:#999ca5;text-align: right;">
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">开始日期</view>
-          <view class="right">
-            <picker bindchange="pickerStartDate" range="{{startDates}}">
-              <view class="picker">已选择：{{startDates[selctedStartDateIndex]}} </view>
-            </picker>
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">结束日期</view>
-          <view class="right">
-            <picker bindchange="pickerEndDate" range="{{endDates}}">
-              <view class="picker">已选择：{{endDates[selctedEndDateIndex]}} </view>
-            </picker>
-          </view>
-        </view>
-        <textarea class="des" @input="descInput" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
+        <textarea class="des" @input="descInput" placeholder="说说今天的感谢和收获吧" placeholder-style="color: #999ca5;" />
       </view>
-      <button class="button" @tap="releaseClick">完成</button>
+      
+    <scroll-view class="five-image" scroll-x="true" style="width: 652rpx">
+      <view class="image-plus"  catchtouchstart="setTopImg">
+        <view class="image-plus-horizontal"></view>
+        <view class="image-plus-vertical"></view>
+        <view class="cardDes">添加照片</view>
+      </view>
+      <block wx:for="{{imageList}}" wx:for-item="image" wx:key="{{image}}">
+        <view class="five-image-file" style="margin-right:{{distance}}rpx">
+          <view class="five-image-file-close" data-index="{{index}}" @tap.stop="removeImage"/>
+          <image class="five-image-img" mode="aspectFill" src="{{image.localPath}}" data-src="{{image.localPath}}" @tap.stop="previewImage"
+                 style="height:{{size}}rpx;width:{{size}}rpx;"/>
+          <view class="uploading" wx:if="{{image.uploadState=='uploading'}}">上传中</view>
+          <view class="uploadFailed" wx:if="{{image.uploadState=='failed'}}">上传失败</view>
+        </view>
+      </block>
+    </scroll-view>
+
+      <button class="button" @tap="releaseClick">发表</button>
       
     </view>
   </view>
@@ -247,31 +269,14 @@ export default class Release extends wepy.page {
         console.log('toast done');
       });
     },
-
-    pickerCate(e) {
-      const idx = e.detail.value;
-      this.selctedCateIndex = idx;
-    },
-    pickerStartDate(e) {
-      const idx = e.detail.value;
-      this.selctedStartDateIndex = idx;
-    },
-    pickerEndDate(e) {
-      const idx = e.detail.value;
-      this.selctedEndDateIndex = idx;
-    },
-    nameInput(e) {
-      this.name = e.detail.value;
-    },
-    moneyInput(e) {
-      this.money = e.detail.value;
-    },
     descInput(e) {
       this.desc = e.detail.value;
     },
     async setTopImg() {
-      const images = await this.$utile.uploadImage();
-      this.images = images;
+      const imageList = await this.$utile.uploadImage();
+      const tempImageList = this.imageList.concat(imageList)
+      this.imageList = tempImageList;
+      console.log("1111",this.imageList)
       this.$apply();
     },
     async releaseClick() {
@@ -305,7 +310,7 @@ export default class Release extends wepy.page {
       wx.cloud.callFunction({
         name: 'addUserActivityPost',
         data: {
-          imageUrl: this.images,
+          imageUrl: this.imageList,
           title: this.name,
           clockType: this.cates[this.selctedCateIndex],
           totalMoney: this.money,

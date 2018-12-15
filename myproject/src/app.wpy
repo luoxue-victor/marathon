@@ -28,6 +28,7 @@ export default class extends wepy.app {
       'pages/index',
       'pages/release',
       'pages/detail',
+      'pages/clockin',
     ],
     window: {
       backgroundTextStyle: 'light',
