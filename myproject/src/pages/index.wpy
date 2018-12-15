@@ -76,6 +76,7 @@
         margin: 44rpx auto 0;
         position: relative;
         z-index: 10;
+        border-radius: 50%;
       }
       .title,.date,.progress{
         font-family: PingFangSC-Medium;
@@ -115,26 +116,26 @@
   <view class="container">
     <!--导航部分轮播图-->
     <swiper class="navban" display-multiple-items="1.10" skip-hidden-item-layout="true"> 
-      <block wx:for="{{navs}}" wx:key="index">
+      <block wx:for="{{userList}}" wx:key="index">
         <swiper-item>
           <view class="navbox">
             <view class="navbox-wrap">
               <view class="nav-logo"></view>
-              <text class="navtext">{{item.navtext}}</text>
+              <text class="navtext">{{index == 0 ? '未开始': index == 1 ? '进行中' : '已完成'}}</text>
             </view>
             <view class="carts">
-                <view class="cart" wx:for={{4}}>
+                <view class="cart" wx:for={{item}}>
                   <view class="opacity-bg-view"></view>
-                  <image class="opacity-bg" mode="center" src="{{other}}"></image>
-                  <image class="avatar" src="{{ releaseBtn }}"></image>
-                  <view class="title">麦田里阅读</view>
+                  <image class="opacity-bg" mode="center" src="{{item.imageUrl}}"></image>
+                  <image class="avatar" src="{{ item.avatarUrl }}"></image>
+                  <view class="title">{{item.title}}</view>
                   <view class="progress">
                     0/6day
                   </view>
                   <view class="date">
-                    已交10元 7.06-7.12
+                    已交{{item.totalMoney}}元 7.06-7.12
                   </view>
-                  <button class="btn">去打卡</button>
+                  <button class="btn" @getuserinfo="getuserinfo" open-type="getUserInfo">去打卡</button>
                 </view>
               </view>
           </view>
@@ -144,8 +145,10 @@
     <image 
       mode="scaleToFill"
       class="release" 
+      bindtap="releaseClick"
       src="{{ releaseBtn }}" alt="">
     </image>
+    <Toast></Toast>
   </view>
 
 </template>
@@ -161,9 +164,9 @@
     }
     data = {
       navs:[
-        { navimg:'/images/i01.png', navtext:'进行中'},
-        { navimg:'/images/i02.png', navtext:'即将开始'},
-        { navimg:'/images/i03.png', navtext:'已完成'},
+        { navtext:'进行中'},
+        { navtext:'即将开始'},
+        { navtext:'已完成'},
       ],
       releaseBtn: './asset/release.png',
       other: './asset/other.jpg',
@@ -171,11 +174,18 @@
       autoplay: true,
       interval: 2000,
       duration: 1000,
+      userList: [[]],
     }
     computed = {
       
     }
     methods = {
+      async getuserinfo(e) {
+        const info = e.detail.userInfo;
+        await this.$utile.addUser({nickName: info.nickName,avatarUrl: info.avatarUrl});
+
+        console.log(e,'getuserinfo')
+      },
       toast () {
         let promise = this.$invoke('toast', 'show', {
           title: '自定义标题',
@@ -185,18 +195,49 @@
           console.log('toast done')
         })
       },
+      
+      async releaseClick() {
+        const images = await this.$utile.uploadImage();
+        wx.cloud.callFunction({
+          name: 'addUserActivityPost',
+          data: {
+            type: 0,
+            imageUrl: images,
+            title: '这是一个标题',
+            clockType: '运动',
+            totalMoney: 10,
+            startDate: Date.now(),
+            endDate: Date.now() + 24 * 60 * 60 * 1000,
+            desc: '这是一个描述'
+          }
+        }).then(res => {
+          wx.showToast({
+            title: '上传成功',
+            icon: 'success',
+            duration: 2000
+          })
+        });
+      }
     }
 
     events = {
       
     }
-    onLoad() {
+
+    getUserActivitiesList() {
       wx.cloud.callFunction({
-        name: 'punchCard',
-        data: {
-          
-        }
-      }).then(res => console.log(res));
+        name: 'getUserActivitiesList',
+      }).then(res => {
+        console.log(res)
+        this.userList =  res.result && res.result.data && res.result.data.data || [[],[],[]];
+        this.$apply();
+      });
+    }
+
+
+
+    onLoad() {
+      this.getUserActivitiesList();
     }
   }
 </script>

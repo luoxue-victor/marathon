@@ -15,9 +15,12 @@ import 'wepy-async-function'
 
 import { setStore } from 'wepy-redux'
 import configStore from './store'
+import Utile from './libs/Utiles.js'
+
+wepy.component.prototype.$utile = new Utile();
 
 const store = configStore()
-setStore(store)
+setStore(store);
 
 export default class extends wepy.app {
   config = {
