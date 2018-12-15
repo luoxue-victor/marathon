@@ -209,7 +209,8 @@ export default class Release extends wepy.page {
       promise.then(d => {
         console.log('toast done');
       });
-    }
+    },
+ 
   };
 
   events = {};

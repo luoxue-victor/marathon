@@ -57,130 +57,172 @@
   .page-release {
     background-color: white;
     width: 686rpx;
-    height: 1228rpx;
+    height: auto;
     margin: 20rpx auto 79rpx;
     box-shadow: 0 2px 30px 0 rgba(44, 44, 44, 0.12);
     border-radius: 20rpx;
     position: relative;
     .banner {
       width: 100%;
-      height: 210rpx;
+      height: 234rpx;
       background-color: #e9e9e9;
       border-radius: 20rpx 20rpx 0 0;
       position: relative;
-      .setimg {
-        width: 160rpx;
-        height: 58rpx;
-        line-height: 58rpx;
-        display: inline-block;
-        border-radius: 50rpx 0 0 50rpx;
-        background: rgba(47, 53, 74, 0.3);
-        position: absolute;
-        right: 0;
-        bottom: 31rpx;
-        font-size: 32rpx;
-        opacity: 0.3;
-        color: #2f354a;
-        text-align: center;
-      }
     }
-    .formbox {
+
+    .box {
       width: 638rpx;
       margin: 0 auto;
-      .item {
-        width: 100%;
-        height: 104rpx;
+      .top {
+        height: 100rpx;
         position: relative;
-        .border-bottom(solid, #e7e7e7);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 32rpx;
-        .left {
+        margin: 30rpx 0;
+        .tilte {
+          font-size: 38rpx;
           color: #2f354a;
         }
-        .right {
-          width: 260rpx;
+        .date {
+          font-size: 30rpx;
+          margin-top: 10rpx;
           color: #999ca5;
-          text-align: right;
-          input {
-            text-align: right;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-            ::-webkit-input-placeholder {
-              color: #999ca5;
-              text-align: right;
-            }
+        }
+
+        .button {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          margin-top: -26rpx;
+          width: 110rpx;
+          height: 53rpx;
+          line-height: 53rpx;
+          text-align: center;
+          font-size: 30rpx;
+          color: #03ceb3;
+          .border(solid, #03ceb3, 70);
         }
       }
-      .des {
-        height: 290rpx;
-        font-size: 32rpx;
-        color: #999ca5;
-        background: #fafafa;
+      .nav {
+        height: 80rpx;
+        width: 100%;
         box-sizing: border-box;
-        margin-top: 36rpx;
-        padding: 35rpx 24rpx;
-        border-radius: 10rpx;
+        overflow: hidden;
+        line-height: 80rpx;
+        background: #ffffff;
+        white-space: nowrap;
+        .tab-item {
+          color: #2f354a;
+          font-size: 28rpx;
+          color: #999ca5;
+          margin-right: 36rpx;
+          display: inline-block;
+        }
+        .tab-item.active {
+          font-size: 32rpx;
+          color: #2f354a;
+          position: relative;
+        }
+        .tab-item.active:after {
+          content: '';
+          display: block;
+          height: 6rpx;
+          width: 30rpx;
+          background: #03ceb3;
+          position: absolute;
+          bottom: 3rpx;
+          left: 50%;
+          margin-left: -15rpx;
+          border-radius: 16rpx;
+        }
       }
     }
-    .button {
-      width: 638rpx;
-      height: 80rpx;
-      line-height: 80rpx;
-      background: #41ceb6;
-      color: #ffffff;
-      text-align: center;
-      border-radius: 50rpx;
-      bottom: 49rpx;
-      left: 50%;
-      margin-left: -638rpx/2;
-      position: absolute;
+    .clockin {
+      position: relative;
+      padding: 40rpx 0;
+      .border-bottom(solid, #e7e7e7);
+      .userimg {
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 72rpx;
+        height: 72rpx;
+        border-radius: 100rpx;
+      }
+      .detail {
+        width: 538rpx;
+        margin-left: 96rpx;
+        color: #2f354a;
+        .name {
+          font-size: 28rpx;
+          color: #2f354a;
+          text-align: left;
+          line-height: 30rpx;
+        }
+        .date {
+          margin-top: 14rpx;
+          font-size: 24rpx;
+          color: #999ca5;
+          letter-spacing: 0;
+          text-align: left;
+          line-height: 24rpx;
+        }
+        .des {
+           margin-top: 24rpx;
+          font-size: 34rpx;
+          color: #2f354a;
+          letter-spacing: 0;
+          text-align: justify;
+          line-height: 51rpx;
+        }
+      }
     }
+    // .button {
+    //   width: 638rpx;
+    //   height: 80rpx;
+    //   line-height: 80rpx;
+    //   background: #41ceb6;
+    //   color: #ffffff;
+    //   text-align: center;
+    //   border-radius: 50rpx;
+    //   bottom: 49rpx;
+    //   left: 50%;
+    //   margin-left: -638rpx/2;
+    //   position: absolute;
+    // }
   }
 }
 </style>
 <template>
   <view class="container">
     <view class="page-release">
-      <view class="banner">
-        <view class="setimg">设置封面</view>
+      <view class="banner"></view>
+      <view class="box">
+        <view class="top">
+          <view class="tilte">打卡主题</view>
+          <view class="date">2018.8.23-9.23</view>
+          <span class="button">分享</span>
+        </view>
+        <scroll-view scroll-x="true" class="nav" scroll-left="{{scrollLeft}}">
+          <view
+            class="tab-item {{currentTab==0?'active':''}}"
+            data-current="0"
+            bindtap="swichNav"
+          >快递</view>
+          <view
+            class="tab-item {{currentTab==1?'active':''}}"
+            data-current="1"
+            bindtap="swichNav"
+          >身份证</view>
+        </scroll-view>
+        <view class="clockin">
+          <image class="userimg" src="cloud://test-08185b.7465-test-08185b/p_6ed4914e" />
+          <view class="detail">
+            <view class="name">山猫丁满</view>
+            <view class="date">已坚持1天| 2018-07-07</view>
+            <view class="des">以我人品担保，绝对是个靠谱青年而且还是单身的那种。</view>
+            <view class="point"></view>
+          </view>
+        </view>
       </view>
-      <view class="formbox">
-        <view class="item">
-          <view class="left">给圈子起个名</view>
-          <view class="rigt">
-            <input type="text" placeholder="请输入名字">
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">类别</view>
-          <view class="rigt">
-            <input type="text" placeholder="请选择">
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">参与金额</view>
-          <view class="rigt">
-            <input type="text" placeholder="请输入金额">
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">开始日期</view>
-          <view class="rigt">
-            <input type="text" placeholder="请选择">
-          </view>
-        </view>
-        <view class="item">
-          <view class="left">结束日期</view>
-          <view class="rigt">
-            <input type="text" placeholder="请选择">
-          </view>
-        </view>
-        <view class="des">请用一句话描述自己的圈子</view>
-      </view>
-      <view class="button">完成</view>
     </view>
   </view>
 </template>
@@ -196,10 +238,12 @@ export default class Release extends wepy.page {
   };
   data = {
     imgUrls: [1, 2, 3],
+    currentTab: 0, //预设当前项的值
     indicatorDots: true,
     autoplay: true,
     interval: 5000,
-    duration: 1000
+    duration: 1000,
+    scrollLeft: 0 //tab标题的滚动条位置,
   };
   computed = {};
   methods = {
@@ -212,6 +256,16 @@ export default class Release extends wepy.page {
       promise.then(d => {
         console.log('toast done');
       });
+    },
+
+    // 点击标题切换当前页时改变样式
+    swichNav(e) {
+      var cur = e.target.dataset.current;
+      if (this.data.currentTaB == cur) {
+        return false;
+      } else {
+        this.currentTab = cur;
+      }
     }
   };
 
