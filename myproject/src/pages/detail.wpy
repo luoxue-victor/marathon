@@ -327,29 +327,21 @@
         </view>
 
         <view wx:if="{{currentTab==1}}">
-          <view class="clockin c">
-            <image class="userimg" src="./asset/other.jpg">
-            <view class="detail">
-              <view class="name">山猫丁满</view>
-              <view class="date">已坚持1天 | 2018-07-07</view>
-            </view>
-          </view>
 
-             <view class="c">
-            <image class="userimg" src="./asset/other.jpg">
-            <view class="detail">
-              <view class="name">山猫丁满</view>
-              <view class="date">已坚持2天 | 2018-07-07</view>
-            </view>
-          </view>
+       
 
-             <view class="c">
-            <image class="userimg" src="./asset/other.jpg">
+ <block wx:for="{{detailInfo.member}}" wx:for-item="memberitem" wx:key="{{memberitem}}">
+  
+
+             <view class="clockin c">
+            <image class="userimg" src="{{memberitem.avatarUrl}}">
             <view class="detail">
-              <view class="name">山猫丁满</view>
-              <view class="date">已坚持3天 | 2018-07-07</view>
+              <view class="name">{{memberitem.nickName}}</view>
+              <view class="date">{{memberitem.joinDate}}</view>
             </view>
           </view>
+ </block>
+
 
         </view>
       </view>
