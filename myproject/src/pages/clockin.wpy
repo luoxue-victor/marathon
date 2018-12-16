@@ -230,9 +230,9 @@ export default class Release extends wepy.page {
             icon: 'success',
             duration: 2000
           });
-              wx.redirectTo({
-          url: '/pages/index',
-        });
+          wx.redirectTo({
+            url: '/pages/index',
+          });
         });
     },
   };
