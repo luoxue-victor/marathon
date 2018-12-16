@@ -177,7 +177,7 @@
         const info = e.detail.userInfo;
         await this.$utile.addUser({nickName: info.nickName,avatarUrl: info.avatarUrl});
         wx.navigateTo({
-          url: '/pages/detail?activityId=' + item.activityId,
+          url: '/pages/clockin?activityId=' + item.activityId,
         });
       },
       
