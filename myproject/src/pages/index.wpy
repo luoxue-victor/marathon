@@ -134,7 +134,7 @@
                   <view class="date">
                     {{ fatherIndex !=2 ? '已交' + item.totalMoney + '元' :''}} {{fatherIndex == 0 ? item.spanDate + '截止': item.spanDate}}
                   </view>
-                  <button class="btn" @tap.stop="goClockin({{item}})" data-item="{{item}}"  style="background-color: {{fatherIndex == 2 && '#8F8F8F'}}" open-type="getUserInfo">{{ fatherIndex == 2 ? '完成' : '去打卡'}}</button>
+                  <button class="btn"  data-item="{{item}}"  style="background-color: {{fatherIndex == 2 && '#8F8F8F'}}" open-type="getUserInfo">{{ fatherIndex == 2 ? '完成' : '去打卡'}}</button>
                 </view>
               </view>
           </view>

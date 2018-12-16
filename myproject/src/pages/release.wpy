@@ -188,8 +188,7 @@
         </view>
         <textarea class="des" @input="descInput" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
       </view>
-      <button class="button" @tap="releaseClick">完成</button>
-
+      <button class="button" @getuserinfo="getuserinfo"  style="background-color: {{fatherIndex == 2 && '#8F8F8F'}}" open-type="getUserInfo">完成</button>
     </view>
   </view>
 </template>
@@ -237,45 +236,17 @@ export default class Release extends wepy.page {
   };
   computed = {};
   methods = {
-    toast() {
-      let promise = this.$invoke('toast', 'show', {
-        title: '自定义标题',
-        img:
-          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-      });
-      promise.then(d => {
-        console.log('toast done');
-      });
-    },
+     async getuserinfo(e) {
+        const item = e.currentTarget.dataset.item;
+        const info = e.detail.userInfo;
+        await this.$utile.addUser({nickName: info.nickName,avatarUrl: info.avatarUrl});
+       
 
-    pickerCate(e) {
-      const idx = e.detail.value;
-      this.selctedCateIndex = idx;
-    },
-    pickerStartDate(e) {
-      const idx = e.detail.value;
-      this.selctedStartDateIndex = idx;
-    },
-    pickerEndDate(e) {
-      const idx = e.detail.value;
-      this.selctedEndDateIndex = idx;
-    },
-    nameInput(e) {
-      this.name = e.detail.value;
-    },
-    moneyInput(e) {
-      this.money = e.detail.value;
-    },
-    descInput(e) {
-      this.desc = e.detail.value;
-    },
-    async setTopImg() {
-      const images = await this.$utile.uploadImage();
-      this.images = images;
-      this.$apply();
-    },
-    async releaseClick() {
-      const arr = [
+
+
+
+
+        const arr = [
         this.images,
         this.name,this.cates[this.selctedCateIndex],
         this.money,
@@ -328,7 +299,45 @@ export default class Release extends wepy.page {
           url: '/pages/index',
         });
       });
-    }
+    },
+    toast() {
+      let promise = this.$invoke('toast', 'show', {
+        title: '自定义标题',
+        img:
+          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+      });
+      promise.then(d => {
+        console.log('toast done');
+      });
+    },
+
+    pickerCate(e) {
+      const idx = e.detail.value;
+      this.selctedCateIndex = idx;
+    },
+    pickerStartDate(e) {
+      const idx = e.detail.value;
+      this.selctedStartDateIndex = idx;
+    },
+    pickerEndDate(e) {
+      const idx = e.detail.value;
+      this.selctedEndDateIndex = idx;
+    },
+    nameInput(e) {
+      this.name = e.detail.value;
+    },
+    moneyInput(e) {
+      this.money = e.detail.value;
+    },
+    descInput(e) {
+      this.desc = e.detail.value;
+    },
+    async setTopImg() {
+      const images = await this.$utile.uploadImage();
+      this.images = images;
+      this.$apply();
+    },
+ 
   };
 
   events = {};
