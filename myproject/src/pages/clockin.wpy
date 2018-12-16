@@ -130,11 +130,11 @@
       </view>
     <scroll-view class="five" scroll-x="true" style="height:161rpx;width: 638rpx;margin: 0 auto;">
       <view class="image-plus" style="margin-right:9rpx;float:left;"  catchtouchstart="setTopImg">
-        <image mode="center" class="cardDes" src="./asset/up.png">
+        <image class="cardDes" style="margin-left: 32rpx;" src="./asset/up.png">
       </view>
       <block wx:for="{{imageList}}" wx:for-item="image" wx:key="{{image}}">
         <image class="five-img" mode="aspectFill" src="{{image}}" @tap.stop="previewImage"
-                 style="height:160rpx;width:160rpx;margin-right:9rpx;float:left;"/>
+                 style="height:160rpx;width:160rpx;margin-left: 20rpx;;margin-right:9rpx;float:left;"/>
       </block>
 
     </scroll-view>

@@ -123,7 +123,7 @@
               <text class="navtext">{{fatherIndex == 0 ? '进行中': fatherIndex == 1 ? '即将开始' : '已完成'}}</text>
             </view>
             <view class="carts">
-                <view class="cart" wx:for={{item}}>
+                <view class="cart"  wx:for="{{item}}" @tap.stop="goDetail({{item}})">
                   <view class="opacity-bg-view"></view>
                   <image class="opacity-bg" mode="center" src="{{item.imageUrl}}"></image>
                   <image class="avatar" src="{{ item.avatarUrl }}"></image>
@@ -134,7 +134,7 @@
                   <view class="date">
                     {{ fatherIndex !=2 ? '已交' + item.totalMoney + '元' :''}} {{fatherIndex == 0 ? item.spanDate + '截止': item.spanDate}}
                   </view>
-                  <button class="btn" @getuserinfo="getuserinfo" data-item="{{item}}"  style="background-color: {{fatherIndex == 2 && '#8F8F8F'}}" open-type="getUserInfo">{{ fatherIndex == 2 ? '完成' : '去打卡'}}</button>
+                  <button class="btn" @tap.stop="goClockin({{item}})" data-item="{{item}}"  style="background-color: {{fatherIndex == 2 && '#8F8F8F'}}" open-type="getUserInfo">{{ fatherIndex == 2 ? '完成' : '去打卡'}}</button>
                 </view>
               </view>
           </view>
@@ -176,6 +176,15 @@
         const item = e.currentTarget.dataset.item;
         const info = e.detail.userInfo;
         await this.$utile.addUser({nickName: info.nickName,avatarUrl: info.avatarUrl});
+      },
+
+      goDetail(item) {
+        wx.navigateTo({
+          url: '/pages/detail?activityId=' + item.activityId,
+        });
+      },
+
+      goClockin(item) {
         wx.navigateTo({
           url: '/pages/clockin?activityId=' + item.activityId,
         });
