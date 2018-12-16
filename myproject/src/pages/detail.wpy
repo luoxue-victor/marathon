@@ -273,7 +273,7 @@
         bindtap="releaseClick"
         src="{{ detailInfo.punchCardCode === 1 ? punch1 : punch2 }}" alt="">
       </image>
-      <image class="banner" src="{{detailInfo.imageUrl}}"></image>
+      <image class="banner" mode="aspectFit" src="{{detailInfo.imageUrl}}"></image>
       <!-- <view class="banner" style="background-image: url({{detailInfo.imageUrl}})"></view> -->
       <view class="box">
         <view class="top">
