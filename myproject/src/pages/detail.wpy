@@ -93,13 +93,14 @@
           right: 0;
           top: 50%;
           margin-top: -26rpx;
+          padding: 0;
           width: 110rpx;
           height: 53rpx;
           line-height: 53rpx;
           text-align: center;
           font-size: 30rpx;
           color: #03ceb3;
-          .border(solid, #03ceb3, 70);
+          // .border(solid, #03ceb3, 70);
         }
       }
       .nav {
@@ -263,7 +264,7 @@
         <view class="top">
           <view class="tilte">{{detailInfo.title}}</view>
           <view class="date">{{detailInfo.startDate}}-{{detailInfo.endDate}}</view>
-          <span class="button">分享</span>
+          <button class="button" open-type="share">分享</button>
         </view>
         <scroll-view scroll-x="true" class="nav" scroll-left="{{scrollLeft}}">
           <view
@@ -357,6 +358,7 @@ export default class Release extends wepy.page {
     praises: './asset/praises.png',
     message: './asset/message.png',
     detailInfo: {},
+    activityId: ''
   };
   computed = {};
   methods = {
@@ -397,8 +399,19 @@ export default class Release extends wepy.page {
     });
   }
 
+  onShareAppMessage(res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '一起来打卡~',
+      path: '/pages/detail?activityId=' + this.activityId
+    }
+  }
+
   onLoad(options) {
-    console.log(options);
+    this.activityId = options.activityId;
     this.getActivityClockDetail(options.activityId)
   }
 }
