@@ -292,32 +292,31 @@
             <image class="userimg" src="./asset/other.jpg">
             <view class="detail">
               <view class="name">{{item.nickName}}</view>
-              <view class="date">已坚持1天 | 2018-07-07</view>
-              <view class="des">以我人品担保，绝对是个靠谱青年而且还是单身的那种。</view>
-              <view class="uploadimg" scroll-x style="width: 100%">
-                <image class="itemimg" src="./asset/other.jpg">
-                <image class="itemimg" src="./asset/other.jpg">
-                <image class="itemimg" src="./asset/other.jpg">
-              </view>
+              <view class="date">已坚持{{item.holdDays}}天 | {{item.recordDate}}</view>
+              <view class="des">{{item.desc}}</view>
+              <view wx:if="{{item.imagesUrl.length !==0}}" class="uploadimg" scroll-x style="width: 100%">
+                <block wx:for="{{item.imagesUrl}}" wx:for-item="img" wx:key="{{img}}">
+                <image class="itemimg" src="{{img}}">
+                </block>
+              </view> 
+
               <view class="point">
                 <image class="praise" src="{{praise}}">
-                <span>11111</span>
+                <span>{{item.like}}</span>
                 <image class="reply" src="{{message}}">
-                <span>3333</span>
+                <!-- <span>{{item.like}}</span> -->
               </view>
               <view class="replydtl">
                 <view class="s">
-                  <span>打卡大魔王:</span>赶紧进的去打卡😠 赶紧进的去打卡😠 赶紧进的去打卡😠 赶紧进的去打卡😠
+                  <span>红牛给了:</span>今天终于打卡了
                 </view>
                 <view class="s">
-                  <span>打卡大魔王:</span>赶紧进的去打卡😠
+                  <span>打卡大魔王:</span>赶紧去打卡😠
                 </view>
               </view>
             </view>
           </view>
           </block>
-
-
         </view>
 
         <view wx:if="{{currentTab==1}}">
@@ -328,20 +327,23 @@
               <view class="date">已坚持1天 | 2018-07-07</view>
             </view>
           </view>
+
              <view class="c">
             <image class="userimg" src="./asset/other.jpg">
             <view class="detail">
               <view class="name">山猫丁满</view>
-              <view class="date">已坚持1天 | 2018-07-07</view>
+              <view class="date">已坚持2天 | 2018-07-07</view>
             </view>
           </view>
+
              <view class="c">
             <image class="userimg" src="./asset/other.jpg">
             <view class="detail">
               <view class="name">山猫丁满</view>
-              <view class="date">已坚持1天 | 2018-07-07</view>
+              <view class="date">已坚持3天 | 2018-07-07</view>
             </view>
           </view>
+
         </view>
       </view>
 
