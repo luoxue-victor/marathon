@@ -221,20 +221,26 @@ export default class Release extends wepy.page {
           data: {
             imageUrl: this.imageList,
             desc: this.desc,
-            activityId:'tnrdmv8oh4g'
+            activityId:this.activityId
           }
         })
         .then(res => {
           wx.showToast({
-            title: '上传成功',
+            title: '打卡成功',
             icon: 'success',
             duration: 2000
+          });
+          wx.redirectTo({
+            url: '/pages/detail?activityId=' + this.activityId,
           });
         });
     },
   };
 
   events = {};
-  onLoad() {}
+    onLoad(options) {
+    console.log(options);
+    this.activityId=options.activityId
+  }
 }
 </script>
