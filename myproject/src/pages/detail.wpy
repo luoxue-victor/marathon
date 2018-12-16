@@ -88,6 +88,9 @@
           color: #999ca5;
         }
 
+button::after {
+  border: none;
+}
         .button {
           position: absolute;
           right: 0;
@@ -100,7 +103,27 @@
           text-align: center;
           font-size: 30rpx;
           color: #03ceb3;
-          // .border(solid, #03ceb3, 70);
+          border: 0;
+ 
+background-color: transparent;
+ 
+outline: none;
+
+          .border(solid, #03ceb3, 70);
+        }
+        .canShare{
+          position: absolute;
+          right:130rpx;
+          top: 50%;
+          margin-top: -26rpx;
+          padding: 0;
+          width: 110rpx;
+          height: 53rpx;
+          line-height: 53rpx;
+          text-align: center;
+          font-size: 30rpx;
+          color: #03ceb3;
+                  .border(solid, #03ceb3, 70);
         }
       }
       .nav {
@@ -280,6 +303,7 @@
           <view class="tilte">{{detailInfo.title}}</view>
           <view class="date">{{detailInfo.startDate}}-{{detailInfo.endDate}}</view>
           <button class="button" open-type="share">分享</button>
+          <view  wx:if="{{this.canShare}}"  bindtap="addshare" class="canShare">加入</view>
         </view>
         <scroll-view scroll-x="true" class="nav" scroll-left="{{scrollLeft}}">
           <view
@@ -365,6 +389,7 @@ export default class Release extends wepy.page {
     autoplay: true,
     interval: 5000,
     duration: 1000,
+    canShare:false,
     scrollLeft: 0, //tab标题的滚动条位置,
     praise: './asset/praise.png',
     praises: './asset/praises.png',
@@ -383,7 +408,6 @@ export default class Release extends wepy.page {
           });
         }
     },
-
     // 点击标题切换当前页时改变样式
     swichNav(e) {
       var cur = e.target.dataset.current;
@@ -392,6 +416,29 @@ export default class Release extends wepy.page {
       } else {
         this.currentTab = cur;
       }
+    },
+    addshare(){
+       wx.cloud.callFunction({
+        name: 'addUserToAct',
+        data: {
+          activityId: this.activityId,
+          nickName: this.nickName,
+          joinSource: this.joinSource,
+        }
+      }).then(res => {
+
+        if(res.result.msg) {
+          wx.showToast({
+            title: res.result.msg,
+            icon: 'fail',
+            duration: 2000
+          });
+          return;
+        }
+        wx.redirectTo({
+          url: '/pages/detail?activityId=' + this.activityId,
+        });
+      });
     }
   };
 
@@ -424,6 +471,8 @@ export default class Release extends wepy.page {
 
   onLoad(options) {
     this.activityId = options.activityId;
+    this.nickName = options.nickName;
+    this.joinSource = options.joinSource;
     this.getActivityClockDetail(options.activityId)
   }
 }
