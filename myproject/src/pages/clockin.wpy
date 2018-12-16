@@ -231,7 +231,7 @@ export default class Release extends wepy.page {
             duration: 2000
           });
           wx.redirectTo({
-            url: '/pages/index',
+            url: '/pages/detail?activityId=' + this.activityId,
           });
         });
     },
