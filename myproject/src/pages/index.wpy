@@ -123,6 +123,7 @@
               <text class="navtext">{{fatherIndex == 0 ? '进行中': fatherIndex == 1 ? '即将开始' : '已完成'}}</text>
             </view>
             <view class="carts">
+                <image mode="aspectFit" wx:if="{{item.length <=0 }}" style="width: 100%" src="{{bg}}"></image>
                 <view class="cart"  wx:for="{{item}}" @tap.stop="goDetail({{item}})">
                   <view class="opacity-bg-view"></view>
                   <image class="opacity-bg" mode="center" src="{{item.imageUrl}}"></image>
@@ -164,11 +165,13 @@
         { navtext:'已完成'},
       ],
       releaseBtn: './asset/release.png',
+      bg: './asset/bg.png',
       indicatorDots: true,
       autoplay: true,
       interval: 2000,
       duration: 1000,
       userList: [[]],
+
     }
 
     methods = {
