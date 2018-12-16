@@ -189,7 +189,7 @@
         <textarea class="des" @input="descInput" placeholder="请用一句话描述自己的圈子" placeholder-style="color: #999ca5;" />
       </view>
       <button class="button" @tap="releaseClick">完成</button>
-      
+
     </view>
   </view>
 </template>

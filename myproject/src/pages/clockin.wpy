@@ -206,7 +206,7 @@ export default class Release extends wepy.page {
     },
     async releaseClick() {
  
-        if ((!this.imageList)&&(!this.desc)) {
+        if ((this.imageList.length===0)&&(!this.desc)) {
           wx.showToast({
             title: '请写点内容吧',
             icon: 'fail',
@@ -214,7 +214,7 @@ export default class Release extends wepy.page {
           });
           return;
         }
-  
+     console.log()
       wx.cloud
         .callFunction({
           name: 'punchCard',
@@ -231,7 +231,7 @@ export default class Release extends wepy.page {
             duration: 2000
           });
         });
-    }
+    },
   };
 
   events = {};
