@@ -1,6 +1,6 @@
 export default class Utile {
     static authorize() {
-        return new Promise((resovle)=>{
+        return new Promise((resovle) => {
             wx.getSetting({
                 success(res) {
                     if (!res.authSetting['scope.userInfo']) {
@@ -20,12 +20,12 @@ export default class Utile {
         return authorizeRes;
     }
 
-    async uploadImage() {
+    async uploadImage(count = 1) {
         // 发布那里的图片上传逻辑，
         let imageUrl;
-        return new Promise((resovle)=>{
+        return new Promise((resovle) => {
             wx.chooseImage({
-                count: 1,
+                count,
                 sizeType: ['original', 'compressed'],
                 sourceType: ['album', 'camera'],
                 success(res) {
@@ -48,8 +48,8 @@ export default class Utile {
         })
     }
 
-    async addUser({nickName,avatarUrl}) {
-        return new Promise((resovle)=>{
+    async addUser({ nickName, avatarUrl }) {
+        return new Promise((resovle) => {
             wx.cloud.callFunction({
                 name: 'common',
                 data: {
