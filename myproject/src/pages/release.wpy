@@ -105,8 +105,9 @@
         }
         .right {
           width: 400rpx;
-          color: #999ca5;
+          color: #2f354a;
           text-align: right;
+  
           input {
             text-align: right;
             text-overflow: ellipsis;
