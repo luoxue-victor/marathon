@@ -265,6 +265,8 @@
           <view class="date">{{detailInfo.startDate}}-{{detailInfo.endDate}}</view>
           <span class="button">分享</span>
         </view>
+
+
         <scroll-view scroll-x="true" class="nav" scroll-left="{{scrollLeft}}">
           <view
             class="tab-item {{currentTab==0?'active':''}}"
@@ -277,11 +279,14 @@
             bindtap="swichNav"
           >成员</view>
         </scroll-view>
+
+
         <view wx:if="{{currentTab==0}}">
+           <block wx:for="{{detailInfo.diary}}" wx:for-item="item" wx:key="{{item}}">
           <view class="clockin">
             <image class="userimg" src="./asset/other.jpg">
             <view class="detail">
-              <view class="name">山猫丁满</view>
+              <view class="name">{{item.nickName}}</view>
               <view class="date">已坚持1天 | 2018-07-07</view>
               <view class="des">以我人品担保，绝对是个靠谱青年而且还是单身的那种。</view>
               <view class="uploadimg" scroll-x style="width: 100%">
@@ -305,6 +310,9 @@
               </view>
             </view>
           </view>
+            </block>
+
+
         </view>
 
         <view wx:if="{{currentTab==1}}">
@@ -398,7 +406,7 @@ export default class Release extends wepy.page {
   }
 
   onLoad(options) {
-    console.log(options);
+
     this.getActivityClockDetail(options.activityId)
   }
 }
