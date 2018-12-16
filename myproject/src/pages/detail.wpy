@@ -296,7 +296,7 @@
         <view wx:if="{{currentTab==0}}">
            <block wx:for="{{detailInfo.diary}}" wx:for-item="item" wx:key="{{item}}">
           <view class="clockin">
-            <image class="userimg" src="./asset/other.jpg">
+            <image class="userimg" src="{{item.avatarUrl}}">
             <view class="detail">
               <view class="name">{{item.nickName}}</view>
               <view class="date">已坚持{{item.holdDays}}天 | {{item.recordDate}}</view>
@@ -412,8 +412,9 @@ export default class Release extends wepy.page {
         activityId
       }
     }).then(res => {
-      console.log(res);
+     
       this.detailInfo = res.result.data;
+       console.log('res.result.data',res.result.data);
       this.$apply();
     });
   }

@@ -214,12 +214,12 @@ export default class Release extends wepy.page {
           });
           return;
         }
-     console.log()
+     console.log("this.imageList",this.imageList);
       wx.cloud
         .callFunction({
           name: 'punchCard',
           data: {
-            imageUrl: this.imageList,
+            imagesUrl: this.imageList,
             desc: this.desc,
             activityId:this.activityId
           }
