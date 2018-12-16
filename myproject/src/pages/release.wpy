@@ -305,20 +305,28 @@ export default class Release extends wepy.page {
       wx.cloud.callFunction({
         name: 'addUserActivityPost',
         data: {
+          // testFinish: true,
           imageUrl: this.images,
           title: this.name,
           clockType: this.cates[this.selctedCateIndex],
           totalMoney: this.money,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.startDates[this.selctedStartDateIndex],
+          endDate: this.endDates[this.selctedEndDateIndex],
           desc: this.desc
         }
       }).then(res => {
-        wx.showToast({
-          title: '上传成功',
-          icon: 'success',
-          duration: 2000
-        })
+        console.log(res);
+        if(res.result.msg) {
+          wx.showToast({
+            title: res.result.msg,
+            icon: 'fail',
+            duration: 2000
+          });
+          return;
+        }
+        wx.redirectTo({
+          url: '/pages/index',
+        });
       });
     }
   };

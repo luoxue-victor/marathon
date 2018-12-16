@@ -13,7 +13,6 @@
     padding-top: 36rpx;
     margin-right: 200px;
     box-sizing: border-box;
-    // overflow-y: auto;
     .navbox-wrap{
       display: flex;
       align-items: center;
@@ -129,13 +128,13 @@
                   <image class="opacity-bg" mode="center" src="{{item.imageUrl}}"></image>
                   <image class="avatar" src="{{ item.avatarUrl }}"></image>
                   <view class="title">{{item.title}}</view>
-                  <view class="progress">
-                    0/6day
+                  <view class="progress" style="font-size: {{fatherIndex == 2 && '24rpx'}}">
+                    {{ fatherIndex == 2 ? '已赚' + item.totalMoney + '元' : item.finishDay + '/' + item.totalDay + 'day' }}
                   </view>
                   <view class="date">
                     {{ fatherIndex !=2 ? '已交' + item.totalMoney + '元' :''}} {{fatherIndex == 0 ? item.spanDate + '截止': item.spanDate}}
                   </view>
-                  <button class="btn" @getuserinfo="getuserinfo" open-type="getUserInfo">去打卡</button>
+                  <button class="btn" @getuserinfo="getuserinfo" data-item="{{item}}"  style="background-color: {{fatherIndex == 2 && '#8F8F8F'}}" open-type="getUserInfo">{{ fatherIndex == 2 ? '完成' : '去打卡'}}</button>
                 </view>
               </view>
           </view>
@@ -148,20 +147,16 @@
       bindtap="releaseClick"
       src="{{ releaseBtn }}" alt="">
     </image>
-    <Toast></Toast>
   </view>
 
 </template>
 <script>
   import wepy from 'wepy'
-  import Toast from 'wepy-com-toast'
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '赏金打卡'
     }
-    components = {
-      toast: Toast
-    }
+
     data = {
       navs:[
         { navtext:'进行中'},
@@ -169,31 +164,21 @@
         { navtext:'已完成'},
       ],
       releaseBtn: './asset/release.png',
-      other: './asset/other.jpg',
       indicatorDots: true,
       autoplay: true,
       interval: 2000,
       duration: 1000,
       userList: [[]],
     }
-    computed = {
-      
-    }
+
     methods = {
       async getuserinfo(e) {
+        const item = e.currentTarget.dataset.item;
         const info = e.detail.userInfo;
         await this.$utile.addUser({nickName: info.nickName,avatarUrl: info.avatarUrl});
-
-        console.log(e,'getuserinfo')
-      },
-      toast () {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
-        promise.then((d) => {
-          console.log('toast done')
-        })
+        wx.navigateTo({
+          url: '/pages/detail?activityId=' + item.activityId,
+        });
       },
       
       async releaseClick() {
@@ -203,21 +188,15 @@
       }
     }
 
-    events = {
-      
-    }
-
     getUserActivitiesList() {
       wx.cloud.callFunction({
         name: 'getUserActivitiesList',
       }).then(res => {
-        console.log(res)
-        this.userList =  res.result && res.result.data && res.result.data.data || [[],[],[]];
+        this.userList = res.result && res.result.data && res.result.data.data || [[],[],[]];
         this.$apply();
+        console.log(this.userList)
       });
     }
-
-
 
     onLoad() {
       this.getUserActivitiesList();

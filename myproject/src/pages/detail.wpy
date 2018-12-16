@@ -257,11 +257,12 @@
 <template>
   <view class="container">
     <view class="page-release">
-      <view class="banner"></view>
+      <image class="banner" src="{{detailInfo.imageUrl}}"></image>
+      <!-- <view class="banner" style="background-image: url({{detailInfo.imageUrl}})"></view> -->
       <view class="box">
         <view class="top">
-          <view class="tilte">打卡主题</view>
-          <view class="date">2018.8.23-9.23</view>
+          <view class="tilte">{{detailInfo.title}}</view>
+          <view class="date">{{detailInfo.startDate}}-{{detailInfo.endDate}}</view>
           <span class="button">分享</span>
         </view>
         <scroll-view scroll-x="true" class="nav" scroll-left="{{scrollLeft}}">
@@ -354,7 +355,8 @@ export default class Release extends wepy.page {
     scrollLeft: 0, //tab标题的滚动条位置,
     praise: './asset/praise.png',
     praises: './asset/praises.png',
-    message: './asset/message.png'
+    message: './asset/message.png',
+    detailInfo: {},
   };
   computed = {};
   methods = {
@@ -381,6 +383,23 @@ export default class Release extends wepy.page {
   };
 
   events = {};
-  onLoad() {}
+
+  getActivityClockDetail(activityId) {
+    wx.cloud.callFunction({
+      name: 'getActivityClockDetail',
+      data: {
+        activityId
+      }
+    }).then(res => {
+      console.log(res);
+      this.detailInfo = res.result.data;
+      this.$apply();
+    });
+  }
+
+  onLoad(options) {
+    console.log(options);
+    this.getActivityClockDetail(options.activityId)
+  }
 }
 </script>
