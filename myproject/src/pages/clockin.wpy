@@ -71,7 +71,6 @@
         color: #999ca5;
         margin-top: 36rpx;
         border-radius: 10rpx;
-        
       }
     }
     .button {
@@ -88,126 +87,56 @@
       position: absolute;
     }
 
-    .five-image {
-    white-space: nowrap;
-    background: #ffffff;
-    display: inline-block;
-    /*padding: unit(20, rpx) 0;*/
-    &-file {
+    .five {
+      white-space: nowrap;
+      background: #ffffff;
       display: inline-block;
-      vertical-align: top;
-      margin-right: unit(9, rpx);
-      position: relative;
-      &-close {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 20;
-        background-image: url("//j2.58cdn.com.cn/zhuanzhuan/publicComponent/images/close.png");
-        background-size: cover;
-        width: unit(30, rpx);
-        height: unit(30, rpx);
+      width: 638rpx;
+      margin: 0 auto;
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
       }
-      /*&-content {*/
-        /*position: absolute;*/
-        /*top: 50%;*/
-        /*left: 50%;*/
-        /*-webkit-transform: translate(-50%, -50%);*/
-        /*transform: translate(-50%, -50%);*/
-        /*color: #FFFFFF;*/
-      /*}*/
-      .cover { //封面
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 36rpx;
-        line-height: 36rpx;
-        text-align: center;
-        font-size: 30rpx;
-        color: #fff;
-        background: rgba(255,86,47,0.6);
+      zoom: 1;
+      .image-plus {
+        width: 160rpx;
+        height: 160rpx;
+        .cardDes {
+          width: 160rpx;
+          height: 160rpx;
+        }
       }
-      .uploading, .uploadFailed{
-        position: absolute;;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        color: #fff;
-        text-align: center;
-        font-size: 26rpx;
-        padding: 45% 0 0;
-      }
-    }
-    &-img {
-      display: block;
-      width: unit(79, rpx);
-      height: unit(79, rpx);
-    }
-    &-input {
-      &-box {
+      &-file {
         display: inline-block;
-        vertical-align: top;
         position: relative;
-        margin-right: unit(20, rpx);
-        width: unit(174, rpx);
-        height: unit(174, rpx);
-        // background: #f2f3f6;
+        width: 160rpx;
+        height: 160rpx;
       }
-      &-icon {
-        background-image: url("//j2.58cdn.com.cn/zhuanzhuan/publicComponent/images/camera.png");
-        background-size: cover;
-        width: unit(76, rpx);
-        height: unit(67, rpx);
-        margin: 0 auto;
-        position: relative;
-        top: 23%;
-      }
-      &-text {
-        position: absolute;
-        bottom: unit(20, rpx);
-        font-size: unit(28, rpx);
-        // color: #9398a5;
-        color: #43474C;
-        text-align: center;
-        width: 100%;
+      &-img {
+        display: block;
+        width: 160rpx;
+        height: 160rpx;
       }
     }
-    .isAble{
-      background: #f2f3f6;
-    }
-  }
   }
 }
 </style>
 <template>
   <view class="container">
     <view class="page-release">
-      <!-- <view class="banner">
-        <image class="img" wx:if="{{images}}" mode="center" src="{{images}}"></image>
-        <view class="setimg" @tap="setTopImg">设置封面</view>
-      </view> -->
       <view class="formbox">
         <textarea class="des" @input="descInput" placeholder="说说今天的感谢和收获吧" placeholder-style="color: #999ca5;" />
       </view>
-      
-    <scroll-view class="five-image" scroll-x="true" style="width: 652rpx">
-      <view class="image-plus"  catchtouchstart="setTopImg">
-        <view class="image-plus-horizontal"></view>
-        <view class="image-plus-vertical"></view>
-        <view class="cardDes">添加照片</view>
+    <scroll-view class="five" scroll-x="true" style="height:161rpx;width: 638rpx;margin: 0 auto;">
+      <view class="image-plus" style="margin-right:9rpx;float:left;"  catchtouchstart="setTopImg">
+        <image mode="center" class="cardDes" src="./asset/up.png">
       </view>
       <block wx:for="{{imageList}}" wx:for-item="image" wx:key="{{image}}">
-        <view class="five-image-file" style="margin-right:{{distance}}rpx">
-          <view class="five-image-file-close" data-index="{{index}}" @tap.stop="removeImage"/>
-          <image class="five-image-img" mode="aspectFill" src="{{image.localPath}}" data-src="{{image.localPath}}" @tap.stop="previewImage"
-                 style="height:{{size}}rpx;width:{{size}}rpx;"/>
-          <view class="uploading" wx:if="{{image.uploadState=='uploading'}}">上传中</view>
-          <view class="uploadFailed" wx:if="{{image.uploadState=='failed'}}">上传失败</view>
-        </view>
+        <image class="five-img" mode="aspectFill" src="{{image}}" @tap.stop="previewImage"
+                 style="height:160rpx;width:160rpx;margin-right:9rpx;float:left;"/>
       </block>
+
     </scroll-view>
 
       <button class="button" @tap="releaseClick">发表</button>
@@ -232,30 +161,19 @@ export default class Release extends wepy.page {
     interval: 5000,
     duration: 1000,
     images: '',
+    imageList: [],
     name: '',
     cate: '',
     money: '',
     startDate: '2018-12-15',
     endDate: '',
-    cates: [
-      '运动','学习','健身','看书'
-    ],
+    cates: ['运动', '学习', '健身', '看书'],
     selctedCateIndex: 0,
     selctedStartDateIndex: 0,
-    startDates: [
-      '2018-12-16',
-      '2018-12-17',
-      '2018-12-18',
-      '2018-12-19',
-    ],
+    startDates: ['2018-12-16', '2018-12-17', '2018-12-18', '2018-12-19'],
     selctedEndDateIndex: 0,
-    endDates: [
-      '2018-12-20',
-      '2018-12-21',
-      '2018-12-22',
-      '2018-12-23',
-    ],
-    desc: '',
+    endDates: ['2018-12-20', '2018-12-21', '2018-12-22', '2018-12-23'],
+    desc: ''
   };
   computed = {};
   methods = {
@@ -272,60 +190,48 @@ export default class Release extends wepy.page {
     descInput(e) {
       this.desc = e.detail.value;
     },
+    previewImage(e) {
+      let current = e.target.dataset.src; // 当前图片地址
+      // 微信预览图片api
+      wepy.previewImage({
+        current: current,
+        urls: this.imageList.map(image => image)
+      });
+    },
     async setTopImg() {
       const imageList = await this.$utile.uploadImage();
-      const tempImageList = this.imageList.concat(imageList)
+      const tempImageList = this.imageList.concat(imageList);
       this.imageList = tempImageList;
-      console.log("1111",this.imageList)
       this.$apply();
     },
     async releaseClick() {
-      const arr = [
-        this.images,
-        this.name,this.cates[this.selctedCateIndex],
-        this.money,
-        this.startDates[this.selctedStartDateIndex],
-        this.endDates[this.selctedEndDateIndex],
-        this.desc
-      ];
-      const tip = [
-        '请上传图片',
-        '请填写名字',
-        '请填写品类',
-        '请填写金额',
-        '请填写开始日期',
-        '请填写结束日期',
-        '请填写描述信息',
-      ]
-      for(let i = 0; i<arr.length;i++) {
-        if(!arr[i]) {
+ 
+        if ((this.imageList.length===0)&&(!this.desc)) {
           wx.showToast({
-            title: tip[i],
+            title: '请写点内容吧',
             icon: 'fail',
             duration: 2000
-          })
-          return
-        } 
-      }
-      wx.cloud.callFunction({
-        name: 'addUserActivityPost',
-        data: {
-          imageUrl: this.imageList,
-          title: this.name,
-          clockType: this.cates[this.selctedCateIndex],
-          totalMoney: this.money,
-          startDate: this.startDate,
-          endDate: this.endDate,
-          desc: this.desc
+          });
+          return;
         }
-      }).then(res => {
-        wx.showToast({
-          title: '上传成功',
-          icon: 'success',
-          duration: 2000
+     console.log()
+      wx.cloud
+        .callFunction({
+          name: 'punchCard',
+          data: {
+            imageUrl: this.imageList,
+            desc: this.desc,
+            activityId:'tnrdmv8oh4g'
+          }
         })
-      });
-    }
+        .then(res => {
+          wx.showToast({
+            title: '上传成功',
+            icon: 'success',
+            duration: 2000
+          });
+        });
+    },
   };
 
   events = {};
